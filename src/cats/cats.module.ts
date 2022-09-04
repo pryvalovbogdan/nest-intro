@@ -1,4 +1,6 @@
 import { Global, Module } from '@nestjs/common';
+import { HttpModule } from '@nestjs/axios';
+
 import { CatsController } from './cats.controller';
 import { CatsService } from './cats.service';
 
@@ -6,6 +8,7 @@ import { CatsService } from './cats.service';
  (e.g., helpers, database connections, etc.), make the module global with the @Global() decorator. **/
 @Global()
 @Module({
+  imports: [HttpModule],
   controllers: [CatsController],
   providers: [CatsService],
   exports: [CatsService],

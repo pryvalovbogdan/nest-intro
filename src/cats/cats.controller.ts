@@ -1,3 +1,7 @@
+import { AxiosResponse } from 'axios';
+import { Request, Response } from 'express';
+import { lastValueFrom, Observable, of } from 'rxjs';
+
 import {
   Controller,
   Get,
@@ -15,8 +19,8 @@ import {
   HttpException,
   ParseIntPipe,
 } from '@nestjs/common';
-import { Request, Response } from 'express';
-import { Observable, of } from 'rxjs';
+import { HttpService } from '@nestjs/axios';
+
 import { CreateCatDto, UpdateCatDto } from './dto/create-cat.dto';
 import { CatsService } from './cats.service';
 import { ICat } from './iterfaces/cats.interface';
@@ -25,7 +29,7 @@ import { ICat } from './iterfaces/cats.interface';
 
 @Controller('cats')
 export class CatsController {
-  constructor(private catsService: CatsService) {}
+  constructor(private catsService: CatsService, readonly httpService: HttpService) {}
   /** To change response status we can use HttpCode **/
   @Get()
   @HttpCode(201)
@@ -38,14 +42,34 @@ export class CatsController {
   @Redirect('https://nestjs.com', 301)
   redirect() {}
 
+  @Get('requestData')
+  async GetData(): Promise<AxiosResponse<any>> {
+    const url = 'https://trade-api.coinlist.co/v1/symbols';
+    /**
+     * Observable toPromise deprecated because of returning last value of chain
+     * const result = await this.httpService.get(url).toPromise();
+     **/
+    const data$ = this.httpService.get(url);
+
+    /** Setting default value if there is no data and checking for null || undefined by ?? operator **/
+    const defaultValue = { data: 'There is no data' };
+    const value = (await lastValueFrom(data$, { defaultValue })) ?? defaultValue;
+
+    return value.data;
+  }
+
   /** Other way to get params with Param decorator **/
   @Get(':count')
   /**
+   * {@link https://docs.nestjs.com/pipes}
    * Pipes have two typical use cases:
    *     transformation: transform input data to the desired form (e.g., from string to integer)
    *     validation: evaluate input data and if valid, simply pass it through unchanged; otherwise, throw an exception when the data is incorrect
    */
-  findExactCat(@Param('count', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) count, @Res() response) {
+  findExactCat(
+    @Param('count', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) count,
+    @Res() response,
+  ) {
     if (count === 1) {
       throw new HttpException('There could not be only 1 cat', HttpStatus.BAD_REQUEST);
     }
