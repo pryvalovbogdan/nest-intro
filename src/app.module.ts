@@ -1,10 +1,17 @@
-import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+  UseInterceptors,
+} from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
 
 import { AppController } from './app.controller';
 import { CatsModule } from './cats/cats.module';
 import { LoggerMiddleware } from './logger.middleware';
 import { CatsController } from './cats/cats.controller';
+import { TransformInterceptor } from './transform.interceptor';
 
 /**
   To add ability to use axios request we should import HttpModule,
@@ -22,6 +29,7 @@ import { CatsController } from './cats/cats.controller';
   controllers: [AppController],
   providers: [],
 })
+@UseInterceptors(TransformInterceptor)
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): any {
     /**

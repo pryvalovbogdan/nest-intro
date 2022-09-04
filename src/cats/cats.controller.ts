@@ -18,16 +18,24 @@ import {
   HttpStatus,
   HttpException,
   ParseIntPipe,
+  UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 
 import { CreateCatDto, UpdateCatDto } from './dto/create-cat.dto';
 import { CatsService } from './cats.service';
 import { ICat } from './iterfaces/cats.interface';
+import { RolesGuard } from '../roles.guard';
+import { LoggingInterceptor } from '../loggin.interseptor';
+import { TransformInterceptor } from '../transform.interceptor';
 
 /**  Prefix in brackets going to produce a route mapping for requests like GET http://localhost:3000/cats **/
 
 @Controller('cats')
+@UseGuards(RolesGuard)
+@UseInterceptors(LoggingInterceptor)
+@UseInterceptors(TransformInterceptor)
 export class CatsController {
   constructor(private catsService: CatsService, readonly httpService: HttpService) {}
   /** To change response status we can use HttpCode **/
@@ -43,7 +51,7 @@ export class CatsController {
   redirect() {}
 
   @Get('requestData')
-  async GetData(): Promise<AxiosResponse<any>> {
+  async GetData(): Promise<AxiosResponse<object>> {
     const url = 'https://trade-api.coinlist.co/v1/symbols';
     /**
      * Observable toPromise deprecated because of returning last value of chain
