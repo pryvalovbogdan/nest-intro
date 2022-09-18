@@ -17,7 +17,6 @@ import { ConfigModule } from '@nestjs/config';
 import { getEnvPath } from './common/helper/env.helper';
 import { TypeOrmConfigService } from './shared/typeorm/typeorm.service';
 import { ApiModule } from './api/api.module';
-import { UserModule } from './api/user/user.module';
 
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 
@@ -39,7 +38,6 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
     }),
     CatsModule,
     ApiModule,
-    UserModule,
   ],
   controllers: [AppController],
   providers: [],

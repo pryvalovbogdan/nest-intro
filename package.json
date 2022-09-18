@@ -6,6 +6,8 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "typeorm": "ts-node ./node_modules/typeorm/cli",
+    "typeorm:run-migrations": "sudo npm run typeorm migration:run  -- -d src/shared/typeorm/configOrm.ts",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
