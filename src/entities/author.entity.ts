@@ -7,13 +7,13 @@ export class Author {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: 'varchar', length: 120 })
   fullName: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 500 })
   biography: string;
 
-  @Column()
+  @Column({ type: 'smallint' })
   rate: number;
 
   @ManyToMany(() => Book)

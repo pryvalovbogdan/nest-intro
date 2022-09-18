@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  ManyToMany,
+  CreateDateColumn,
+} from 'typeorm';
 import { Genre } from './genre.entity';
 import { Author } from './author.entity';
 
@@ -7,13 +14,13 @@ export class Book {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: 'varchar', length: 120 })
   name: string;
 
-  @Column()
+  @Column({ type: 'smallint' })
   rate: number;
 
-  @Column()
+  @CreateDateColumn({ type: 'timestamp' })
   date: string;
 
   @ManyToMany(() => Author)
