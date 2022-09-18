@@ -26,9 +26,9 @@ import { HttpService } from '@nestjs/axios';
 import { CreateCatDto, UpdateCatDto } from './dto/create-cat.dto';
 import { CatsService } from './cats.service';
 import { ICat } from './iterfaces/cats.interface';
-import { RolesGuard } from '../roles.guard';
-import { LoggingInterceptor } from '../loggin.interseptor';
-import { TransformInterceptor } from '../transform.interceptor';
+import { RolesGuard } from '../../roles.guard';
+import { LoggingInterceptor } from '../../loggin.interseptor';
+import { TransformInterceptor } from '../../transform.interceptor';
 
 /**  Prefix in brackets going to produce a route mapping for requests like GET http://localhost:3000/cats **/
 

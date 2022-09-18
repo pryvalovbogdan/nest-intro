@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Inject, Param, ParseIntPipe, Post } from '@nestjs/common';
 
-import { User1 } from './user1.entity';
+import { User } from '../../entities/user.entity';
 import { UserService } from './user.service';
-import { CreateUserDto } from '../api/user/user.dto';
+import { CreateUserDto } from './dto/user.dto';
 
 @Controller('user')
 export class UserController {
@@ -10,12 +10,12 @@ export class UserController {
   private readonly service: UserService;
 
   @Get(':id')
-  public getUser(@Param('id', ParseIntPipe) id: number): Promise<User1> {
+  public getUser(@Param('id', ParseIntPipe) id: number): Promise<User> {
     return this.service.getUser(id);
   }
 
   @Post()
-  public createUser(@Body() body: CreateUserDto): Promise<User1> {
+  public createUser(@Body() body: CreateUserDto): Promise<User> {
     return this.service.createUser(body);
   }
 }

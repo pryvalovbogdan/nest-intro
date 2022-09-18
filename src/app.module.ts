@@ -9,18 +9,17 @@ import { HttpModule } from '@nestjs/axios';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AppController } from './app.controller';
-import { CatsModule } from './cats/cats.module';
+import { CatsModule } from './api/cats/cats.module';
 import { LoggerMiddleware } from './logger.middleware';
-import { CatsController } from './cats/cats.controller';
+import { CatsController } from './api/cats/cats.controller';
 import { TransformInterceptor } from './transform.interceptor';
 import { ConfigModule } from '@nestjs/config';
 import { getEnvPath } from './common/helper/env.helper';
 import { TypeOrmConfigService } from './shared/typeorm/typeorm.service';
 import { ApiModule } from './api/api.module';
-import { UsersModule } from './user/user.module';
-console.log('__dirname', __dirname);
+import { UserModule } from './api/user/user.module';
+
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
-console.log('envFilePath', envFilePath);
 
 /**
   To add ability to use axios request we should import HttpModule,
@@ -40,7 +39,7 @@ console.log('envFilePath', envFilePath);
     }),
     CatsModule,
     ApiModule,
-    UsersModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [],

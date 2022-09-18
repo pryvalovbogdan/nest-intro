@@ -7,12 +7,15 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class User1 {
+export class User {
   @PrimaryGeneratedColumn()
   public id!: number;
 
   @Column({ type: 'varchar', length: 120 })
-  public name: string;
+  public firstName: string;
+
+  @Column({ type: 'varchar', length: 120 })
+  public lastName: string;
 
   @Column({ type: 'varchar', length: 120 })
   public email: string;
