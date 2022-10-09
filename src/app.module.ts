@@ -17,6 +17,9 @@ import { ConfigModule } from '@nestjs/config';
 import { getEnvPath } from './common/helper/env.helper';
 import { TypeOrmConfigService } from './shared/typeorm/typeorm.service';
 import { ApiModule } from './api/api.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 
@@ -38,6 +41,13 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
     }),
     CatsModule,
     ApiModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'front-react/build'),
+    }),
+    ThrottlerModule.forRoot({
+      ttl: 60,
+      limit: 10,
+    }),
   ],
   controllers: [AppController],
   providers: [],

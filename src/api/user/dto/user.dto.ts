@@ -11,4 +11,20 @@ export class CreateUserDto {
 
   @IsEmail()
   public email: string;
+
+  @IsString()
+  public password: string;
+
+  @IsString()
+  public accountType: string;
+}
+
+export class LoginUserDto {
+  @IsEmail()
+  @IsNotEmpty()
+  public email: string;
+
+  @IsString()
+  @IsNotEmpty()
+  public password: string;
 }

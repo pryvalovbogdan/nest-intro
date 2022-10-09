@@ -17,7 +17,7 @@ export class User {
   @Column({ type: 'varchar', length: 120 })
   public lastName: string;
 
-  @Column({ type: 'varchar', length: 120 })
+  @Column({ type: 'varchar', length: 120, unique: true })
   public email: string;
 
   @Column({ type: 'varchar', length: 50 })
@@ -25,6 +25,9 @@ export class User {
 
   @Column({ type: 'boolean', default: false })
   public isDeleted: boolean;
+
+  @Column({ type: 'varchar', length: 120 })
+  public password: string;
 
   @CreateDateColumn({ type: 'timestamp' })
   public createdAt!: Date;

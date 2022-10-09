@@ -4,6 +4,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { CatchExceptionFilter } from './catch-exeption.filter';
 import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   /** By default, Nest use Express, but you can change it into Fastify new FastifyAdapter() https://www.fastify.io/ **/
@@ -18,7 +19,8 @@ async function bootstrap() {
   console.log('port', port);
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
   app.useGlobalFilters(new CatchExceptionFilter(httpAdapter));
-
+  app.enableCors();
+  app.use(cookieParser());
   await app.listen(port, () => {
     console.log('[WEB]', config.get<string>('BASE_URL'));
   });

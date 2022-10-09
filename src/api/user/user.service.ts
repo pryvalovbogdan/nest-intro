@@ -10,8 +10,8 @@ export class UserService {
   @InjectRepository(User)
   private readonly repository: Repository<User>;
 
-  public getUser(id): Promise<User> {
-    return this.repository.findOne(id);
+  public getUser(condition): Promise<User> {
+    return this.repository.findOne({ where: condition });
   }
 
   public createUser(body: CreateUserDto): Promise<User> {
@@ -20,6 +20,8 @@ export class UserService {
     user.firstName = body.firstName;
     user.lastName = body.lastName;
     user.email = body.email;
+    user.password = body.password;
+    user.accountType = body.accountType;
 
     return this.repository.save(user);
   }
